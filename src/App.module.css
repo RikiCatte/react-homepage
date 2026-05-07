@@ -1,0 +1,31 @@
+.main {
+    position: relative;
+    z-index: 2;
+    min-height: 100dvh;
+}
+
+.hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100dvh;
+    padding: var(--space-8) var(--space-4);
+    position: relative;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-8);
+    width: 100%;
+    max-width: var(--content-default);
+    margin-inline: auto;
+}
+
+@media (max-width: 480px) {
+    .content {
+        gap: var(--space-6);
+    }
+}

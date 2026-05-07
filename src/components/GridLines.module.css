@@ -1,0 +1,18 @@
+.grid {
+    position: fixed;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    background-image:
+        linear-gradient(oklch(from var(--color-primary) l c h / 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, oklch(from var(--color-primary) l c h / 0.04) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+    -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% 50%, black 30%, transparent 100%);
+}
+
+@media (max-width: 768px) {
+    .grid {
+        background-size: 40px 40px;
+    }
+}
