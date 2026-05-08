@@ -17,11 +17,11 @@ export default function App() {
       <main className={styles.main}>
         <section className={styles.hero} aria-label="Presentazione">
           <div className={styles.content}>
-            <StatusBadge text="Open to work" />
+            <StatusBadge text="Ready to explore" />
             <HeroName />
             <SocialLinks />
           </div>
-          <ScrollHint />
+          {/* <ScrollHint /> */}
         </section>
       </main>
     </>
