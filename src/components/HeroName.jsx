@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { motion, useMotionValue, useSpring } from 'motion/react'
+import { useReducedMotion } from '../hooks/useReducedMotion'
 import styles from './HeroName.module.css'
 
 const LETTERS = 'RikiCatte'.split('')
@@ -23,9 +24,11 @@ export default function HeroName() {
                 }}
                 aria-label="RikiCatte"
             >
-                {LETTERS.map((char, i) => (
-                    <AnimatedLetter key={i} char={char} index={i} />
-                ))}
+                <span className={styles.nameInner} aria-hidden="true">
+                    {LETTERS.map((char, i) => (
+                        <AnimatedLetter key={i} char={char} index={i} />
+                    ))}
+                </span>
             </motion.h1>
 
             <motion.p
@@ -34,7 +37,7 @@ export default function HeroName() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.9, ease: [0.16, 1, 0.3, 1] }}
             >
-                Full-stack dev · Cloud & DevOps · Open source builder
+                Full-stack dev · Cloud & DevOps · Self-Hoster · AI · Networking · CyberSecurity
             </motion.p>
         </div>
     )
@@ -42,12 +45,19 @@ export default function HeroName() {
 
 function AnimatedLetter({ char }) {
     const ref = useRef(null)
+    const reducedMotion = useReducedMotion()
+
+    // Su mobile disabilita il tilt 3D (perché problematico)
+    const isTouch = typeof window !== 'undefined' && window.matchMedia('(hover: none)').matches
+
     const rotateX = useMotionValue(0)
     const rotateY = useMotionValue(0)
     const springX = useSpring(rotateX, { damping: 20, stiffness: 200 })
     const springY = useSpring(rotateY, { damping: 20, stiffness: 200 })
 
     useEffect(() => {
+        // Non attiva il mouse tracking su touch/mobile
+        if (isTouch || reducedMotion) return
         const el = ref.current
         if (!el) return
 
@@ -72,19 +82,23 @@ function AnimatedLetter({ char }) {
             el.removeEventListener('mousemove', handleMouseMove)
             el.removeEventListener('mouseleave', handleLeave)
         }
-    }, [rotateX, rotateY])
+    }, [rotateX, rotateY, isTouch, reducedMotion])
+
+    // Su mobile nessuna trasformazione 3D
+    const motionStyle = (!isTouch && !reducedMotion)
+        ? { rotateX: springX, rotateY: springY, transformPerspective: 500 }
+        : {}
 
     return (
         <motion.span
             ref={ref}
             className={styles.letter}
-            style={{ rotateX: springX, rotateY: springY, transformPerspective: 500 }}
+            style={motionStyle}
             variants={{
-                hidden: { opacity: 0, y: 40, rotateX: -30 },
+                hidden: { opacity: 0, y: 40 },
                 show: {
                     opacity: 1,
                     y: 0,
-                    rotateX: 0,
                     transition: { type: 'spring', damping: 18, stiffness: 180 }
                 }
             }}

@@ -29,6 +29,19 @@
     font-size: var(--text-hero);
     font-weight: 900;
     letter-spacing: -0.03em;
+    display: block;
+    user-select: none;
+    perspective: 800px;
+    line-height: 1;
+}
+
+.nameInner {
+    display: inline-block;
+}
+
+.letter {
+    display: inline-block;
+    cursor: default;
     color: transparent;
     background: linear-gradient(135deg,
             #e8e8f0 20%,
@@ -38,9 +51,8 @@
     -webkit-background-clip: text;
     background-size: 200% 200%;
     animation: gradientShift 6s ease infinite;
-    display: flex;
-    perspective: 800px;
-    user-select: none;
+    -webkit-transform: translateZ(0);
+    will-change: transform;
 }
 
 @keyframes gradientShift {
@@ -55,11 +67,6 @@
     100% {
         background-position: 0% 50%;
     }
-}
-
-.letter {
-    display: inline-block;
-    cursor: default;
 }
 
 .letter:hover {
