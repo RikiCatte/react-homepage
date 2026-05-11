@@ -26,3 +26,4 @@ dist-ssr
 # CUSTOM
 cv.pdf
 dist/
+vite.config.js
