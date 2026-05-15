@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useLocation } from 'react-router-dom'
+import { useLocation, Routes, Route } from 'react-router-dom'
 import { LanguageProvider } from './context/LanguageContext'
 import { AnimatePresence } from 'motion/react'
 import CursorGlow from './components/CursorGlow'
@@ -10,9 +10,10 @@ import StatusBadge from './components/StatusBadge'
 import ScrollHint from './components/ScrollHint'
 import PortfolioSection from './components/portfolio/PortfolioSection'
 import LangToggle from './components/portfolio/LangToggle'
+import PrivacyPage from './pages/PrivacyPage'
 import styles from './App.module.css'
 
-function AppInner() {
+function MainPage() {
     const location = useLocation()
     const [portfolioVisible, setPortfolioVisible] = useState(false)
 
@@ -41,7 +42,6 @@ function AppInner() {
                         <SocialLinks />
                     </div>
 
-                    {/* Sezione 2 — Portfolio */}
                     <AnimatePresence mode="wait">
                         {!portfolioVisible ? (
                             <ScrollHint key="down" direction="down" />
@@ -51,9 +51,26 @@ function AppInner() {
                     </AnimatePresence>
                 </section>
 
+                {/* Sezione 2 — Portfolio */}
                 <PortfolioSection onVisibilityChange={setPortfolioVisible} />
+
+                {/* Footer con link privacy */}
+                <footer className={styles.footer}>
+                    <a href="/privacy" className={styles.privacyLink}>Privacy Policy</a>
+                </footer>
             </main>
         </>
+    )
+}
+
+function AppInner() {
+    return (
+        <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/portfolio" element={<MainPage />} />
+            <Route path="/privacy" element={<PrivacyPage />} />
+            <Route path="*" element={<MainPage />} />
+        </Routes>
     )
 }
 
