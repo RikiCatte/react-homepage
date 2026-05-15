@@ -27,3 +27,6 @@ dist-ssr
 cv.pdf
 dist/
 vite.config.js
+
+# Font con licenza non ridistribuibile pubblicamente
+public/fonts/CabinetGrotesk-*.woff2
