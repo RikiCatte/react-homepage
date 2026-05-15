@@ -1,13 +1,14 @@
+/* ── Mouse hint (hero, direction=down) ── */
 .hint {
-    position: absolute;
+    position: fixed;
     bottom: var(--space-8);
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: var(--space-2);
-    z-index: 10;
+    z-index: 50;
+    pointer-events: none;
 }
 
 .mouse {
@@ -16,38 +17,75 @@
     border: 2px solid oklch(from var(--color-text-muted) l c h / 0.4);
     border-radius: var(--radius-full);
     display: flex;
-    justify-content: center;
-    padding-top: 6px;
+    flex-direction: column;
+    align-items: center;
+    padding: 4px;
+    overflow: hidden;
 }
 
-.wheel {
+.wheelDown {
     width: 4px;
     height: 8px;
     background: var(--color-primary);
     border-radius: var(--radius-full);
     opacity: 0.7;
-    animation: scroll 1.8s ease-in-out infinite;
+    margin-top: 0;
+    margin-bottom: auto;
+    animation: scrollDown 1.8s ease-in-out infinite;
 }
 
-@keyframes scroll {
+@keyframes scrollDown {
     0% {
         opacity: 0.8;
         transform: translateY(0);
     }
 
     50% {
-        opacity: 0.3;
+        opacity: 0.4;
         transform: translateY(8px);
     }
 
     100% {
         opacity: 0;
-        transform: translateY(14px);
+        transform: translateY(16px);
     }
 }
 
+/* ── Arrow up (portfolio, direction=up) ── */
+.arrowUp {
+    position: fixed;
+    bottom: var(--space-8);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: var(--radius-full);
+    background: oklch(from var(--color-surface) l c h / 0.75);
+    border: 1px solid oklch(from var(--color-primary) l c h / 0.3);
+    color: var(--color-primary);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: var(--shadow-glow-sm), var(--shadow-md);
+    cursor: pointer;
+    /* Annulla il translateX del left:50% perché è già centrato via left+transform */
+}
+
+.arrowUp:hover {
+    background: oklch(from var(--color-surface-2) l c h / 0.9);
+    border-color: oklch(from var(--color-primary) l c h / 0.6);
+    box-shadow: var(--shadow-glow), var(--shadow-lg);
+}
+
+.arrowUp:active {
+    transform: translateX(-50%) scale(0.93);
+}
+
 @media (prefers-reduced-motion: reduce) {
-    .wheel {
+    .wheelDown {
         animation: none;
     }
 }
