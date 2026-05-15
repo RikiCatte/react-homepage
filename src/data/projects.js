@@ -92,6 +92,19 @@ export const PROJECTS = [
         ],
     },
     {
+        id: 'homepage-react',
+        featured: false,
+        titleIt: 'Questa Homepage',
+        titleEn: 'This Homepage',
+        shortDescIt: 'Il sito che stai visitando, sviluppato in React e Vite. Codice open source, sempre in sviluppo, miglioramento e aggiornamento.',
+        shortDescEn: 'The website you\'re visiting, built with React and Vite. Open source code, always under development, improvement and updating.',
+        tags: ['React', 'Vite', 'JavaScript', 'Open Source'],
+        expandable: false,
+        links: [
+            { labelIt: 'Repository GitHub', labelEn: 'GitHub Repository', url: 'https://github.com/RikiCatte/react-homepage', icon: 'github', external: true },
+        ],
+    },
+    {
         id: 'progetto-biblioteca',
         featured: false,
         titleIt: 'Progetto Biblioteca',
@@ -102,6 +115,19 @@ export const PROJECTS = [
         expandable: false,
         links: [
             { labelIt: 'Repository privata', labelEn: 'Private repository', url: null, icon: 'lock', external: false },
+        ],
+    },
+    {
+        id: 'fivem-busjob',
+        featured: false,
+        titleIt: 'Risorsa Bus Job per FiveM',
+        titleEn: 'FiveM Bus Job Resource',
+        shortDescIt: 'Risorsa per il job del bus in FiveM QBCore ready, sviluppata in Lua. Codice open source.',
+        shortDescEn: 'Resource for the bus job in FiveM QBCore ready, built with Lua. Open source code.',
+        tags: ['FiveM', 'Lua', 'QBCore', 'Resource'],
+        expandable: false,
+        links: [
+            { labelIt: 'Repository GitHub', labelEn: 'GitHub Repository', url: 'https://github.com/RikiCatte/fivem-busjob', icon: 'github', external: true },
         ],
     },
     {
