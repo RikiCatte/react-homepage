@@ -112,6 +112,70 @@
     translate: 0 0;
 }
 
+/* ── CV submenu ── */
+.cvWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cvMenu {
+    position: absolute;
+    top: calc(100% + var(--space-3));
+    bottom: auto;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-surface-offset);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-lg);
+    padding: var(--space-2);
+    display: flex;
+    flex-direction: row;
+    gap: var(--space-2);
+    z-index: 100;
+    box-shadow: var(--shadow-lg);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+}
+
+.cvOption {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-2) var(--space-3);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: var(--color-text-muted);
+    transition: background var(--transition-interactive), color var(--transition-interactive);
+    min-width: 52px;
+}
+
+.cvOption:hover {
+    background: oklch(from var(--color-primary) l c h / 0.12);
+    color: var(--color-primary);
+}
+
+.cvFlag {
+    font-size: 1.4rem;
+    line-height: 1;
+}
+
+.cvLang {
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+/* Stato hover del tasto CV quando il menu è aperto */
+.link[data-id="cv"][data-open] {
+    color: var(--color-primary);
+    border-color: oklch(from var(--color-primary) l c h / 0.5);
+    background: oklch(from var(--color-surface-2) l c h / 0.85);
+}
+
 @media (max-width: 480px) {
     .link {
         width: 48px;

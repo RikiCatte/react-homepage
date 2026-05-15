@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useRef } from 'react'
 import { motion, AnimatePresence } from 'motion/react'
 import styles from './SocialLinks.module.css'
 
@@ -51,7 +51,7 @@ const LINKS = [
     {
         id: 'cv',
         label: 'Curriculum Vitae',
-        href: '/cv.pdf',
+        type: 'cv',
         icon: (
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
@@ -63,6 +63,85 @@ const LINKS = [
         ),
     },
 ]
+
+const CV_OPTIONS = [
+    { lang: 'it', label: 'Italiano', href: '/cv_ita.pdf', flag: '🇮🇹' },
+    { lang: 'en', label: 'English', href: '/cv_eng.pdf', flag: '🇬🇧' },
+]
+
+function CvButton({ sharedProps }) {
+    const [open, setOpen] = useState(false)
+    const closeTimer = useRef(null)
+
+    const handleMouseEnter = () => {
+        clearTimeout(closeTimer.current)
+        setOpen(true)
+    }
+
+    const handleMouseLeave = () => {
+        // Piccolo delay per permettere di spostarsi sul submenu
+        closeTimer.current = setTimeout(() => setOpen(false), 120)
+    }
+
+    return (
+        <div
+            className={styles.cvWrapper}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+        >
+            <motion.button
+                type="button"
+                {...sharedProps}
+                data-id="cv"
+                data-open={open || undefined}
+                aria-label="Curriculum Vitae — scegli la lingua"
+                aria-expanded={open}
+            >
+                <span className={styles.icon}>
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+                        <polyline points="14 2 14 8 20 8" />
+                        <line x1="16" y1="13" x2="8" y2="13" />
+                        <line x1="16" y1="17" x2="8" y2="17" />
+                        <polyline points="10 9 9 9 8 9" />
+                    </svg>
+                </span>
+                <span className={styles.tooltip}>Curriculum Vitae</span>
+            </motion.button>
+
+            {/* Submenu bandiere */}
+            <AnimatePresence>
+                {open && (
+                    <motion.div
+                        className={styles.cvMenu}
+                        role="menu"
+                        aria-label="Scegli la lingua del CV"
+                        initial={{ opacity: 0, y: -6, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: -6, scale: 0.95 }}
+                        transition={{ duration: 0.18, ease: [0.16, 1, 0.3, 1] }}
+                        onMouseEnter={handleMouseEnter}
+                        onMouseLeave={handleMouseLeave}
+                    >
+                        {CV_OPTIONS.map((opt) => (
+                            <a
+                                key={opt.lang}
+                                href={opt.href}
+                                className={styles.cvOption}
+                                role="menuitem"
+                                aria-label={`CV in ${opt.label}`}
+                                onClick={() => setOpen(false)}
+                            >
+                                <span className={styles.cvFlag} aria-hidden="true">{opt.flag}</span>
+                                <span className={styles.cvLang}>{opt.label}</span>
+                            </a>
+                        ))}
+                    </motion.div>
+                )}
+            </AnimatePresence>
+        </div >
+    )
+}
 
 export default function SocialLinks() {
     const [copiedId, setCopiedId] = useState(null)
@@ -100,15 +179,9 @@ export default function SocialLinks() {
         >
             {LINKS.map((link) => {
                 const isCopied = copiedId === link.id
-                const isButton = link.type === 'copy'
 
-                const sharedProps = {
+                const sharedMotionProps = {
                     className: styles.link,
-                    'data-id': link.id,
-                    'data-copied': isCopied || undefined,
-                    'aria-label': isButton
-                        ? (isCopied ? `Username copied: ${link.copyValue}` : `Copy Discord username`)
-                        : link.label,
                     variants: {
                         hidden: { opacity: 0, scale: 0.7 },
                         show: {
@@ -121,6 +194,18 @@ export default function SocialLinks() {
                     whileTap: { scale: 0.93 },
                 }
 
+                if (link.type === 'cv') {
+                    return (
+                        <motion.div
+                            key={link.id}
+                            variants={sharedMotionProps.variants}
+                            style={{ position: 'relative' }}
+                        >
+                            <CvButton sharedProps={sharedMotionProps} />
+                        </motion.div>
+                    )
+                }
+
                 const content = (
                     <>
                         <span className={styles.icon}>
@@ -128,12 +213,9 @@ export default function SocialLinks() {
                                 {isCopied ? (
                                     <motion.svg
                                         key="check"
-                                        viewBox="0 0 24 24"
-                                        fill="none"
-                                        stroke="currentColor"
-                                        strokeWidth="2.5"
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
+                                        viewBox="0 0 24 24" fill="none"
+                                        stroke="currentColor" strokeWidth="2.5"
+                                        strokeLinecap="round" strokeLinejoin="round"
                                         aria-hidden="true"
                                         initial={{ scale: 0.5, opacity: 0 }}
                                         animate={{ scale: 1, opacity: 1 }}
@@ -156,19 +238,22 @@ export default function SocialLinks() {
                             </AnimatePresence>
                         </span>
                         <span className={styles.tooltip}>
-                            {isButton
+                            {link.type === 'copy'
                                 ? (isCopied ? link.copyLabel : link.copyValue)
                                 : link.label}
                         </span>
                     </>
                 )
 
-                if (isButton) {
+                if (link.type === 'copy') {
                     return (
                         <motion.button
                             key={link.id}
-                            {...sharedProps}
+                            {...sharedMotionProps}
+                            data-id={link.id}
+                            data-copied={isCopied || undefined}
                             type="button"
+                            aria-label={isCopied ? `Username copied: ${link.copyValue}` : `Copy Discord username`}
                             onClick={() => handleCopy(link)}
                         >
                             {content}
@@ -179,9 +264,11 @@ export default function SocialLinks() {
                 return (
                     <motion.a
                         key={link.id}
-                        {...sharedProps}
+                        {...sharedMotionProps}
+                        data-id={link.id}
+                        aria-label={link.label}
                         href={link.href}
-                        target={link.href.startsWith('mailto:') || link.href.endsWith('.pdf') ? '_self' : '_blank'}
+                        target={link.href.startsWith('mailto:') ? '_self' : '_blank'}
                         rel="noopener noreferrer"
                     >
                         {content}

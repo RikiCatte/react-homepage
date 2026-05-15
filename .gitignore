@@ -24,7 +24,7 @@ dist-ssr
 *.sw?
 
 # CUSTOM
-cv.pdf
+cv*.pdf
 dist/
 vite.config.js
 
