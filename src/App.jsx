@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useLocation, Routes, Route } from 'react-router-dom'
 import { LanguageProvider } from './context/LanguageContext'
+import { PaletteProvider } from './context/PaletteContext'
 import { AnimatePresence } from 'motion/react'
 import CursorGlow from './components/CursorGlow'
 import GridLines from './components/GridLines'
@@ -10,6 +11,7 @@ import StatusBadge from './components/StatusBadge'
 import ScrollHint from './components/ScrollHint'
 import PortfolioSection from './components/portfolio/PortfolioSection'
 import LangToggle from './components/portfolio/LangToggle'
+import PaletteToggle from './components/portfolio/PaletteToggle'
 import PrivacyPage from './pages/PrivacyPage'
 import styles from './App.module.css'
 
@@ -31,6 +33,7 @@ function MainPage() {
         <>
             <CursorGlow />
             <GridLines />
+            <PaletteToggle />
             <LangToggle visible={portfolioVisible} />
 
             <main className={styles.main}>
@@ -77,7 +80,9 @@ function AppInner() {
 export default function App() {
     return (
         <LanguageProvider>
-            <AppInner />
+            <PaletteProvider>
+                <AppInner />
+            </PaletteProvider>
         </LanguageProvider>
     )
 }

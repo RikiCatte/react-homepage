@@ -29,7 +29,7 @@
     font-weight: 900;
     letter-spacing: -0.03em;
     color: transparent;
-    background: linear-gradient(135deg, #e8e8f0 30%, #a78bfa 70%);
+    background: linear-gradient(135deg, var(--color-text) 30%, var(--color-primary) 70%);
     background-clip: text;
     -webkit-background-clip: text;
     line-height: 1;

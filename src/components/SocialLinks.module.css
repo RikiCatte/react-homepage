@@ -48,8 +48,8 @@
 }
 
 .link[data-id="github"]:hover {
-    color: #e8e8f0;
-    border-color: rgba(232, 232, 240, 0.4);
+    color: var(--color-text);
+    border-color: oklch(from var(--color-text) l c h / 0.4);
 }
 
 .icon {
