@@ -86,6 +86,7 @@ export function PaletteProvider({ children }) {
   )
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export function usePalette() {
   const ctx = useContext(PaletteContext)
   if (!ctx) throw new Error('usePalette must be used within PaletteProvider')

@@ -1,4 +1,4 @@
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect } from 'react'
 import { motion } from 'motion/react'
 import { useLang } from '../../context/LanguageContext'
 import { PROJECTS, PORTFOLIO_META } from '../../data/projects'
@@ -12,7 +12,6 @@ import styles from './PortfolioSection.module.css'
 export default function PortfolioSection({ onVisibilityChange }) {
     const { lang } = useLang()
     const sectionRef = useRef(null)
-    const [, forceUpdate] = useState(0)
 
     // IntersectionObserver: notifica il parent quando la sezione è visibile
     useEffect(() => {
@@ -26,7 +25,6 @@ export default function PortfolioSection({ onVisibilityChange }) {
         return () => observer.disconnect()
     }, [onVisibilityChange])
 
-    // Forza re-render al cambio lingua per aggiornare il meta testo
     const meta = PORTFOLIO_META
     const lastUpdate = lang === 'it' ? meta.lastUpdateIt : meta.lastUpdateEn
     const countLabel = lang === 'it'
